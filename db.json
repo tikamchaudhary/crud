@@ -1,0 +1,40 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "Tikam Singh",
+      "email": "tikamsingh@gmail.com",
+      "phone": "8077662050"
+    },
+    {
+      "id": "2",
+      "name": "Tikam Chaudhary",
+      "email": "tikamchaudhary@gmail.com",
+      "phone": "8077662054"
+    },
+    {
+      "id": "3",
+      "name": "Vishal Vearma",
+      "email": "vishal@gmail.com",
+      "phone": "8089882051"
+    },
+    {
+      "id": "4",
+      "name": "Vishal Sharma",
+      "email": "vishalsharma@gmail.com",
+      "phone": "8089882058"
+    },
+    {
+      "id": "5",
+      "name": "Rohit",
+      "email": "rohit@gmail.com",
+      "phone": "8089892051"
+    },
+    {
+      "id": "6",
+      "name": "Tikam Singhrtyui",
+      "email": "tikamsingh@gmail.com",
+      "phone": "8077662050"
+    }
+  ]
+}
