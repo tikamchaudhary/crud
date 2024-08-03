@@ -1,86 +1,111 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-function EmpCreate() {
+function createUser() {
   const navigate = useNavigate();
-  const [employee, setEmployee] = useState({ name: "", email: "", phone: "" });
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    category: "",
+    avatar: "",
+  });
 
   const handleInputs = (e) => {
-    setEmployee({ ...employee, [e.target.name]: e.target.value })
-  }
+    if (e.target.name !== "avatar") {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    } else {
+      setUser({ ...user, [e.target.name]: e.target.files[0] });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/employees", {
+
+    const formData = new FormData();
+    formData.append("username", user.username);
+    formData.append("email", user.email);
+    formData.append("password", user.password);
+    formData.append("avatar", user.avatar);
+    formData.append("category", user.category);
+
+    fetch("http://localhost:9000/api/v1/users/create", {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(employee)
-    }).then((res) => {
-      alert("Saved Successfully ..");
-      navigate("/");
-    }).catch((err) => console.log(err.message))
-  }
+      body: formData,
+    })
+      .then((res) => {
+        alert("Saved Successfully ..");
+        navigate("/");
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   return (
-    <div className='w-full p-8'>
-      <div className="w-6/12 mx-auto border border-slate-500 rounded-lg shadow p-5 text-slate-700">
-        <h2 className='font-bold text-2xl text-center'>Employee Create</h2>
-        <form
-          onSubmit={handleSubmit}
-          className='w-10/12 mx-auto  flex flex-col gap-4'>
-          <div className=''>
-            <label
-              htmlFor="name"
-              className='block text-xl'
-            >Name:</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              value={employee.name}
-              onChange={handleInputs}
-              className='block w-full outline-none border-2 border-slate-500 px-4 py-1.5 rounded-md'
-            />
-          </div>
-          <div className=''>
-            <label
-              htmlFor="email"
-              className='block text-xl'
-            >Email:</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              required
-              value={employee.email}
-              onChange={handleInputs}
-              className='block w-full outline-none border-2 border-slate-500 px-4 py-1.5 rounded-md'
-            />
-          </div>
-          <div className=''>
-            <label
-              htmlFor="phone"
-              className='block text-xl'
-            >Phone:</label>
-            <input
-              type="number"
-              name="phone"
-              id="phone"
-              value={employee.phone}
-              required
-              onChange={handleInputs}
-              className='block w-full outline-none border-2 border-slate-500 px-4 py-1.5 rounded-md'
-            />
-          </div>
-          <div className=' flex gap-4'>
-            <button className='px-4 py-1.5 bg-green-500 hover:bg-green-700 rounded-md text-white'>Save</button>
-            <Link to="/" className='px-4 py-1.5 bg-red-500 hover:bg-red-700 rounded-md text-white'>Back</Link>
-          </div>
-        </form>
-      </div>
-    </div>
-  )
+    <>
+      <h2>Create User</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Name:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            required
+            value={user.username}
+            onChange={handleInputs}
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            value={user.email}
+            onChange={handleInputs}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="text"
+            name="password"
+            id="password"
+            value={user.password}
+            required
+            onChange={handleInputs}
+          />
+        </div>
+        <div>
+          <label htmlFor="avatar">Avatar:</label>
+          <input
+            type="file"
+            name="avatar"
+            id="avatar"
+            value={user.avatar}
+            required
+            onChange={handleInputs}
+          />
+        </div>
+        <div>
+          <label htmlFor="category">Category:</label>
+          <input
+            type="text"
+            name="category"
+            id="category"
+            value={user.category}
+            required
+            onChange={handleInputs}
+          />
+        </div>
+        <div>
+          <button type="submit">Save</button>
+          <Link to="/">Back</Link>
+        </div>
+      </form>
+    </>
+  );
 }
 
-export default EmpCreate;
+export default createUser;
